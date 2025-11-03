@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-
+#include <string.h>
+#define TAM 3
 typedef struct
 {
     int anio, mes, dia, hora, minuto, segundo;
@@ -42,6 +42,7 @@ void INIarchivo (Archivo * lista, int n)
 
 
     }
+    printf("\n");
 }
 
 void mostrarLista(Archivo* lista, int n)
@@ -58,11 +59,26 @@ void mostrarLista(Archivo* lista, int n)
                lista[i].ultima_mod.minuto,
                lista[i].ultima_mod.segundo);
         printf("-----------------------------\n");
+        printf("\n");
     }
 }
 
 void ordena_alfa( Archivo * lista, int n )
 {
+    Archivo temp;
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (strcmp(lista[i].nombre, lista[j].nombre) > 0)
+            {
+                temp = lista[i];
+                lista[i] = lista[j];
+                lista[j] = temp;
+            }
+        }
+    }
+
 
 }
 
@@ -90,12 +106,31 @@ int compara_tiempos (tiempo *T1, tiempo *T2)
 
 }
 
+void ordena_temporal(Archivo * lista, int n)
+{
+    Archivo temp;
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+
+            if (compara_tiempos(&lista[i].ultima_mod, &lista[j].ultima_mod) > 0) {
+                temp = lista[i];
+                lista[i] = lista[j];
+                lista[j] = temp;
+            }
+        }
+    }
+}
+
 
 int main()
 {
-    Archivo lista [3];
+    Archivo lista [TAM];
     srand(time(NULL));
-    tiempo T1, T2;
+
+    //seccion de la primera parte del ejercicio
+   /* tiempo T1, T2;
     tiempo* TT1 = &T1;
     tiempo* TT2 = &T2;
     iniTIEMPO(TT1);
@@ -125,10 +160,29 @@ int main()
         printf("TIEMPO 1 ES ANTERIOR A TIEMPO 2\n");
         break;
     }
+*/
+//inicio de segunda parte del ejercicio
 
-    //Archivo * plist = &lista;
+    INIarchivo(lista,TAM);
+    mostrarLista(lista,TAM);
+    ordena_alfa(lista,TAM);
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("ordena alfabeticamente\n");
+    mostrarLista(lista,TAM);
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("ordena temporalmente\n");
+    ordena_temporal(lista,TAM);
+    mostrarLista(lista,TAM);
 
-    INIarchivo(lista,3);
-    mostrarLista(lista,3);
     return 0;
 }
+
